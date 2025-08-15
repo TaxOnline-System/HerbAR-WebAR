@@ -1,85 +1,177 @@
-<script>
-const HERB_DB = {
-  hiro: {
-    name: 'กะเพรา',
-    sci: 'Ocimum tenuiflorum (Holy Basil)',
-    img: 'https://images.unsplash.com/photo-1582515073490-39981397dfd2?q=80&w=400&auto=format&fit=crop',
-    uses: 'บรรเทาท้องอืด แน่นเฟ้อ แก้คลื่นไส้ ช่วยขับลม',
-    how: 'ใช้ใบสดชงน้ำร้อนดื่ม หรือผัดเป็นอาหาร ชงชา: ใบสด 5–10 ใบ ในน้ำร้อน 200 มล. ทิ้งไว้ 5 นาที',
-    warn: 'สตรีมีครรภ์ควรหลีกเลี่ยงการใช้ปริมาณมาก ผู้ที่แพ้พืชวงศ์กะเพราควรระวัง',
-    dose: 'ดื่มแบบชาวันละ 1–2 แก้ว ไม่เกิน 500 มล./วัน'
-  },
-  kanji: {
-    name: 'ขิง',
-    sci: 'Zingiber officinale (Ginger)',
-    img: 'https://images.unsplash.com/photo-1601000938259-9a22507d61dd?q=80&w=400&auto=format&fit=crop',
-    uses: 'แก้อาการคลื่นไส้ เมารถ เมาเรือ อุ่นร่างกาย ช่วยย่อย',
-    how: 'หั่นแว่นบาง 3–5 แว่น ต้มน้ำ 250 มล. 5–10 นาที ดื่มอุ่น ๆ',
-    warn: 'ผู้ที่เป็นแผลในกระเพาะ ลิ่มเลือดผิดปกติ หรือใช้ยาต้านการแข็งตัวของเลือดควรปรึกษาแพทย์',
-    dose: 'ผงขิงแห้ง 1–2 กรัม/วัน หรือขิงสด ~10 กรัม/วัน'
-  },
-  galangal: {
-    name: 'ข่า',
-    sci: 'Alpinia galanga',
-    img: 'https://images.unsplash.com/photo-1615485296740-03ff2cf14e1d?q=80&w=400&auto=format&fit=crop',
-    uses: 'แก้ท้องอืด ขับลม แก้ปวดท้องจากอาหารไม่ย่อย',
-    how: 'ฝานเหง้าสด 3–4 แว่น ต้มน้ำ 250 มล. 5–7 นาที ดื่มอุ่น ๆ',
-    warn: 'ผู้ป่วยโรคกระเพาะควรระวังการใช้เข้มข้น',
-    dose: 'ดื่มน้ำต้มข่าไม่เกิน 2 แก้ว/วัน'
-  },
-  lemongrass: {
-    name: 'ตะไคร้',
-    sci: 'Cymbopogon citratus',
-    img: 'https://images.unsplash.com/photo-1588628566587-dbd0e0d4f40c?q=80&w=400&auto=format&fit=crop',
-    uses: 'ขับลม ลดอาการท้องอืด ช่วยขับปัสสาวะ',
-    how: 'ทุบลำต้น 2–3 ต้น ต้มน้ำ 300 มล. 5 นาที',
-    warn: 'ผู้ที่มีความดันโลหิตต่ำควรใช้ในปริมาณพอเหมาะ',
-    dose: 'ดื่มน้ำตะไคร้ไม่เกิน 500 มล./วัน'
-  },
-  fingerroot: {
-    name: 'กระชาย',
-    sci: 'Boesenbergia rotunda',
-    img: 'https://images.unsplash.com/photo-1625577168532-b99b0401d233?q=80&w=400&auto=format&fit=crop',
-    uses: 'บำรุงกำลัง ขับลม แก้ท้องอืด',
-    how: 'ฝานรากสด 5–10 กรัม ต้มน้ำดื่ม หรือบดผสมอาหาร',
-    warn: 'ผู้ป่วยโรคไตควรหลีกเลี่ยงการใช้ต่อเนื่องนาน',
-    dose: 'วันละไม่เกิน 20 กรัม'
-  },
-  pandan: {
-    name: 'ใบเตย',
-    sci: 'Pandanus amaryllifolius',
-    img: 'https://images.unsplash.com/photo-1617981681924-41c8a4f39c4e?q=80&w=400&auto=format&fit=crop',
-    uses: 'ช่วยให้กลิ่นหอม ผ่อนคลาย ลดความดันเล็กน้อย',
-    how: 'ใบสด 5–7 ใบ ต้มกับน้ำ 500 มล. ดื่มหรือใช้แต่งกลิ่น',
-    warn: 'ความดันต่ำไม่ควรดื่มมากเกินไป',
-    dose: 'ดื่มน้ำใบเตยวันละไม่เกิน 1 ลิตร'
-  },
-  stevia: {
-    name: 'หญ้าหวาน',
-    sci: 'Stevia rebaudiana',
-    img: 'https://images.unsplash.com/photo-1590000196460-bcda4bb2d4dd?q=80&w=400&auto=format&fit=crop',
-    uses: 'ให้ความหวานแทนน้ำตาล ลดพลังงาน',
-    how: 'ใช้ใบแห้งหรือสดชงน้ำร้อนแทนน้ำตาล',
-    warn: 'ผู้ที่แพ้พืชตระกูลเดียวกันควรระวัง',
-    dose: 'ไม่เกิน 4 มก./กก.น้ำหนักตัว/วัน'
-  },
-  indianGooseberry: {
-    name: 'มะขามป้อม',
-    sci: 'Phyllanthus emblica',
-    img: 'https://images.unsplash.com/photo-1627322554447-4b921f5d2d14?q=80&w=400&auto=format&fit=crop',
-    uses: 'บำรุงร่างกาย แก้ไอ เสริมภูมิคุ้มกัน',
-    how: 'รับประทานสด ดอง หรือน้ำคั้น',
-    warn: 'ผู้ที่เป็นโรคนิ่วในไตควรระวัง',
-    dose: 'วันละไม่เกิน 3 ผลสด'
-  },
-  gotuKola: {
-    name: 'ใบบัวบก',
-    sci: 'Centella asiatica',
-    img: 'https://images.unsplash.com/photo-1622678161780-0bc105b9566e?q=80&w=400&auto=format&fit=crop',
-    uses: 'แก้อักเสบ บำรุงสมอง ลดความเครียด',
-    how: 'คั้นน้ำดื่ม หรือกินสดเป็นผักแนม',
-    warn: 'ไม่ควรใช้ต่อเนื่องนานเกิน 6 สัปดาห์',
-    dose: 'น้ำคั้นไม่เกิน 1 แก้ว/วัน'
-  }
-};
-</script>
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title>HerbAR – แอปส่องสมุนไพร (WebAR)</title>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
+  <link rel="icon" href="data:;base64,=">
+  <style>
+    html, body { height: 100%; margin: 0; background:#000; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+    #ar-container { position: fixed; inset: 0; }
+    .hud { position: fixed; left: 0; right: 0; top: 0; z-index: 20; pointer-events: none; }
+    .panel { pointer-events: auto; background: rgba(255,255,255,.92); padding: 10px 12px; margin: 10px; border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,.16); }
+    .toast { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.75); color: #fff; padding: 10px 14px; border-radius: 12px; z-index: 30; }
+    .hidden { display: none; }
+    button { border-radius: 10px; border: 1px solid #e5e7eb; background: #fff; padding: 8px 12px; margin-right: 8px; }
+    button:hover { background: #f3f4f6; }
+    dialog { border: none; border-radius: 16px; padding: 0; max-width: 640px; width: 92%; }
+    dialog::backdrop { background: rgba(0,0,0,.45); }
+    .modal-body { padding: 12px 16px; }
+    .modal-footer { border-top: 1px solid #e5e7eb; padding: 10px 16px; text-align: right; }
+    #about { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,.95); padding: 10px 12px; text-align: center; border-top-left-radius:16px; border-top-right-radius:16px; font-size:12px; }
+    #about img { height:24px; margin:0 4px; vertical-align:middle; }
+  </style>
+</head>
+<body>
+  <div class="hud">
+    <div class="panel">
+      <div style="font-weight:600">HerbAR · สาธิต WebAR</div>
+      <div style="font-size:12px;color:#374151">
+        ส่อง <b>Hiro</b> หรือ <b>Kanji</b> marker (พิมพ์ในโฟลเดอร์ <code>/assets</code>) เพื่อดูข้อมูลสมุนไพร
+      </div>
+    </div>
+    <div id="infoPanel" class="panel hidden" style="max-width: 560px;">
+      <div style="display:flex; gap:12px; align-items:flex-start;">
+        <img id="herbImg" src="" alt="herb" style="width:64px;height:64px;object-fit:cover;border-radius:12px;border:1px solid #e5e7eb"/>
+        <div style="flex:1">
+          <div id="herbSci" style="font-size:12px;color:#6b7280">ชื่อวิทยาศาสตร์</div>
+          <div id="herbName" style="font-size:18px;font-weight:800">สมุนไพร</div>
+          <div id="herbUses" style="font-size:12px;color:#374151">สรรพคุณ</div>
+        </div>
+      </div>
+      <div style="margin-top:8px;">
+        <button id="btnHow">วิธีใช้</button>
+        <button id="btnWarn">ข้อห้าม/ขนาดที่เหมาะสม</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden">เลื่อนกล้องไปที่ marker เพื่อแสดงข้อมูล…</div>
+
+  <div id="ar-container">
+    <a-scene
+      vr-mode-ui="enabled: false"
+      renderer="logarithmicDepthBuffer: true; antialias: true"
+      embedded
+      arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
+
+      <a-marker type="preset" preset="hiro" id="marker-hiro">
+        <a-entity position="0 0 0">
+          <a-plane color="#FFFFFF" opacity="0.92" width="1.6" height="1" position="0 0.2 0" rotation="-90 0 0"></a-plane>
+          <a-entity position="0 0.2 0.01" rotation="-90 0 0">
+            <a-text value="กะเพรา (Holy Basil)" align="center" width="2.2" color="#111"></a-text>
+          </a-entity>
+          <a-box depth="0.02" height="0.02" width="1.6" color="#16a34a" position="0 -0.3 0" rotation="-90 0 0"></a-box>
+        </a-entity>
+      </a-marker>
+
+      <a-marker type="preset" preset="kanji" id="marker-kanji">
+        <a-entity position="0 0 0">
+          <a-plane color="#FFFFFF" opacity="0.92" width="1.6" height="1" position="0 0.2 0" rotation="-90 0 0"></a-plane>
+          <a-entity position="0 0.2 0.01" rotation="-90 0 0">
+            <a-text value="ขิง (Ginger)" align="center" width="2.2" color="#111"></a-text>
+          </a-entity>
+          <a-box depth="0.02" height="0.02" width="1.6" color="#ea580c" position="0 -0.3 0" rotation="-90 0 0"></a-box>
+        </a-entity>
+      </a-marker>
+
+      <a-entity camera></a-entity>
+    </a-scene>
+  </div>
+
+  <dialog id="modal">
+    <div class="modal-body">
+      <div id="modalTitle" style="font-size:18px;font-weight:800">รายละเอียด</div>
+      <div id="modalBody" style="font-size:14px;color:#374151;margin-top:6px"></div>
+    </div>
+    <div class="modal-footer">
+      <button onclick="modal.close()">ปิด</button>
+    </div>
+  </dialog>
+
+  <div id="about">
+    <div>เกี่ยวกับ HerbAR | ส่งเสริมภูมิปัญญาท้องถิ่นด้วยเทคโนโลยี AR</div>
+    <div style="margin-top:4px;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Flag_of_Thailand.svg" alt="โลโก้ตัวอย่าง"/>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Placeholder_image.png" alt="โลโก้ตัวอย่าง"/>
+    </div>
+  </div>
+
+  <script>
+    const HERB_DB = {
+      hiro: { name:'กะเพรา', sci:'Ocimum tenuiflorum', img:'https://images.unsplash.com/photo-1582515073490-39981397dfd2?q=80&w=400&auto=format&fit=crop', uses:'บรรเทาท้องอืด แน่นเฟ้อ แก้คลื่นไส้ ช่วยขับลม', how:'ใช้ใบสดชงน้ำร้อนดื่ม หรือผัดเป็นอาหาร', warn:'สตรีมีครรภ์ควรหลีกเลี่ยงการใช้ปริมาณมาก', dose:'วันละ 1–2 แก้ว'},
+      kanji: { name:'ขิง', sci:'Zingiber officinale', img:'https://images.unsplash.com/photo-1601000938259-9a22507d61dd?q=80&w=400&auto=format&fit=crop', uses:'แก้อาการคลื่นไส้ เมารถ เมาเรือ อุ่นร่างกาย ช่วยย่อย', how:'ต้มน้ำ 250 มล. 5–10 นาที ดื่มอุ่น ๆ', warn:'ผู้ที่เป็นแผลในกระเพาะควรปรึกษาแพทย์', dose:'ผงขิง 1–2 กรัม/วัน'},
+      galangal: { name:'ข่า', sci:'Alpinia galanga', img:'https://images.unsplash.com/photo-1615485296740-03ff2cf14e1d?q=80&w=400&auto=format&fit=crop', uses:'แก้ท้องอืด ขับลม แก้ปวดท้อง', how:'ฝานเหง้าสด 3–4 แว่น ต้มน้ำ 250 มล. 5–7 นาที ดื่มอุ่น ๆ', warn:'ผู้ป่วยโรคกระเพาะควรระวัง', dose:'ไม่เกิน 2 แก้ว/วัน'},
+      lemongrass: { name:'ตะไคร้', sci:'Cymbopogon citratus', img:'https://images.unsplash.com/photo-1588628566587-dbd0e0d4f40c?q=80&w=400&auto=format&fit=crop', uses:'ขับลม ลดอาการท้องอืด ช่วยขับปัสสาวะ', how:'ทุบลำต้น 2–3 ต้น ต้มน้ำ 300 มล. 5 นาที', warn:'ผู้ที่มีความดันโลหิตต่ำควรใช้พอเหมาะ', dose:'ไม่เกิน 500 มล./วัน'},
+      fingerroot: { name:'กระชาย', sci:'Boesenbergia rotunda', img:'https://images.unsplash.com/photo-1625577168532-b99b0401d233?q=80&w=400&auto=format&fit=crop', uses:'บำรุงกำลัง ขับลม แก้ท้องอืด', how:'ฝานรากสด 5–10 กรัม ต้มน้ำดื่ม หรือบดผสมอาหาร', warn:'ผู้ป่วยโรคไตควรหลีกเลี่ยงการใช้ต่อเนื่องนาน', dose:'วันละไม่เกิน 20 กรัม'},
+      pandan: { name:'ใบเตย', sci:'Pandanus amaryllifolius', img:'https://images.unsplash.com/photo-1617981681924-41c8a4f39c4e?q=80&w=400&auto=format&fit=crop', uses:'ช่วยให้กลิ่นหอม ผ่อนคลาย ลดความดันเล็กน้อย', how:'ใบสด 5–7 ใบ ต้มกับน้ำ 500 มล. ดื่มหรือใช้แต่งกลิ่น', warn:'ความดันต่ำไม่ควรดื่มมากเกินไป', dose:'ไม่เกิน 1 ลิตร/วัน'},
+      stevia: { name:'หญ้าหวาน', sci:'Stevia rebaudiana', img:'https://images.unsplash.com/photo-1590000196460-bcda4bb2d4dd?q=80&w=400&auto=format&fit=crop', uses:'ให้ความหวานแทนน้ำตาล ลดพลังงาน', how:'ใช้ใบแห้งหรือสดชงน้ำร้อนแทนน้ำตาล', warn:'ผู้ที่แพ้พืชตระกูลเดียวกันควรระวัง', dose:'ไม่เกิน 4 มก./กก.น้ำหนักตัว/วัน'},
+      indianGooseberry: { name:'มะขามป้อม', sci:'Phyllanthus emblica', img:'https://images.unsplash.com/photo-1627322554447-4b921f5d2d14?q=80&w=400&auto=format&fit=crop', uses:'บำรุงร่างกาย แก้ไอ เสริมภูมิคุ้มกัน', how:'รับประทานสด ดอง หรือน้ำคั้น', warn:'ผู้ที่เป็นโรคนิ่วในไตควรระวัง', dose:'วันละไม่เกิน 3 ผลสด'},
+      gotuKola: { name:'ใบบัวบก', sci:'Centella asiatica', img:'https://images.unsplash.com/photo-1622678161780-0bc105b9566e?q=80&w=400&auto=format&fit=crop', uses:'แก้อักเสบ บำรุงสมอง ลดความเครียด', how:'คั้นน้ำดื่ม หรือกินสดเป็นผักแนม', warn:'ไม่ควรใช้ต่อเนื่องนานเกิน 6 สัปดาห์', dose:'น้ำคั้นไม่เกิน 1 แก้ว/วัน'}
+    };
+
+    const infoPanel = document.getElementById('infoPanel');
+    const herbImg = document.getElementById('herbImg');
+    const herbSci = document.getElementById('herbSci');
+    const herbName = document.getElementById('herbName');
+    const herbUses = document.getElementById('herbUses');
+    const btnHow = document.getElementById('btnHow');
+    const btnWarn = document.getElementById('btnWarn');
+    const toast = document.getElementById('toast');
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    let currentKey = null;
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.remove('hidden');
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => toast.classList.add('hidden'), 1800);
+    }
+
+    function setHerb(key) {
+      const h = HERB_DB[key];
+      if (!h) return;
+      currentKey = key;
+      herbImg.src = h.img;
+      herbSci.textContent = h.sci;
+      herbName.textContent = h.name;
+      herbUses.textContent = h.uses;
+      infoPanel.classList.remove('hidden');
+    }
+
+    function clearHerb() {
+      currentKey = null;
+      infoPanel.classList.add('hidden');
+    }
+
+    const mHiro = document.getElementById('marker-hiro');
+    const mKanji = document.getElementById('marker-kanji');
+
+    mHiro.addEventListener('markerFound', () => { setHerb('hiro'); showToast('พบ marker: กะเพรา'); });
+    mHiro.addEventListener('markerLost', () => { clearHerb(); showToast('marker หายไป'); });
+    mKanji.addEventListener('markerFound', () => { setHerb('kanji'); showToast('พบ marker: ขิง'); });
+    mKanji.addEventListener('markerLost', () => { clearHerb(); showToast('marker หายไป'); });
+
+    document.addEventListener('click', () => { const video = document.querySelector('video'); if (video && video.paused) video.play().catch(()=>{}); }, { once: true });
+
+    btnHow.addEventListener('click', () => {
+      if (!currentKey) return;
+      const h = HERB_DB[currentKey];
+      modalTitle.textContent = `วิธีใช้: ${h.name}`;
+      modalBody.textContent = h.how;
+      modal.showModal();
+    });
+    btnWarn.addEventListener('click', () => {
+      if (!currentKey) return;
+      const h = HERB_DB[currentKey];
+      modalTitle.textContent = `ข้อห้าม/ขนาดที่เหมาะสม: ${h.name}`;
+      modalBody.innerHTML = `<div style='margin-bottom:6px'>${h.warn}</div><div style='font-weight:700;color:#111'>ขนาดที่เหมาะสม: ${h.dose}</div>`;
+      modal.showModal();
+    });
+  </script>
+</body>
+</html>
